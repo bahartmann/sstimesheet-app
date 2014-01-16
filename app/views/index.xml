@@ -1,5 +1,12 @@
 <Alloy>
-	<Window class="container">
-		<Label id="label" onClick="doClick">Hello, World</Label>
+	<Window id="indexWindow" navBarHidden="true">
+		<View layout="vertical" backgroundColor="#ffffff">
+			
+			<ImageView image="/ss_index.png" width="90%" left="5%" top="25%"></ImageView>
+			
+			<Button id="loginButton" title="Login" width="90%" left="5%" top="30%" backgroundColor="#18bc9c"></Button>
+			<Button id="signUpButton" title="Sign Up" width="90%" left="5%" top="3%" backgroundColor="#18bc9c"></Button>	
+			
+		</View>
 	</Window>
 </Alloy>

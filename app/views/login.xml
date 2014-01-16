@@ -1,0 +1,9 @@
+<Alloy>
+	<Window id="loginWindow" navBarHidden="true" opacity="1" backgroundColor="#99000000">
+		<View layout="vertical" width="92%" left="4%" top="30%" backgroundColor="#ffffff" bottom="30%">
+			<TextField id="usernameField" hintText="Username" top="32dp" left="8dp" right="8dp"></TextField>
+			<TextField id="passwordField" hintText="Password" passwordMask="true" left="8dp" right="8dp" top="8dp"></TextField>
+			<Button id="confirmButton" title="Login" top="16dp" left="48dp" right="48dp" backgroundColor="#18bc9c" height="48" color="#ffffff"></Button>
+		</View>
+	</Window>
+</Alloy>
