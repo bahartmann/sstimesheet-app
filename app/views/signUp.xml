@@ -1,0 +1,12 @@
+<Alloy>
+	<Window id="signUpWindow" navBarHidden="true" opacity="1" backgroundColor="#99000000">
+		<ScrollView id="signUpScroll" contentHeight="auto" height="350" layout="vertical">
+			<View layout="vertical" width="92%" left="4%" backgroundColor="#ffffff" height="280dp" top="50dp">
+				<TextField id="emailField" hintText="E-mail" top="32dp" left="8dp" right="8dp"></TextField>
+				<TextField id="passwordField" hintText="Password" passwordMask="true" left="8dp" right="8dp" top="8dp"></TextField>
+				<TextField id="passwordConfirmationField" hintText="Confirm Password" passwordMask="true" left="8dp" right="8dp" top="8dp"></TextField>
+				<Button id="confirmButton" title="Sign Up" top="16dp" left="48dp" right="48dp" backgroundColor="#18bc9c" height="48" color="#ffffff"></Button>
+			</View>
+		</ScrollView>
+	</Window>
+</Alloy>
