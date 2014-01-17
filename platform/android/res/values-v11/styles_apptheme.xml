@@ -3,14 +3,6 @@
 <!-- Generated with http://android-holo-colors.com -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <style name="ActionBarAppTheme" parent="android:style/Widget.Holo.Light.ActionBar">
-    <item name="android:background">#D8333D</item>
-    <item name="android:titleTextStyle">@style/ActionBarTextAppTheme</item>
-  </style>
-  <style name="ActionBarTextAppTheme" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-    <item name="android:textColor">#fff</item>
-  </style>
-
   <style name="AutoCompleteTextViewAppTheme" parent="android:Widget.Holo.Light.AutoCompleteTextView">
       <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_light</item>
 	    <item name="android:background">@drawable/apptheme_edit_text_holo_light</item>
