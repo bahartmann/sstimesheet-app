@@ -4,8 +4,8 @@
 			
 			<ImageView image="/ss_index.png" width="90%" left="5%" top="25%"></ImageView>
 			
-			<Button id="loginButton" title="Login" width="90%" left="5%" top="30%" backgroundColor="#18bc9c"></Button>
-			<Button id="signUpButton" title="Sign Up" width="90%" left="5%" top="3%" backgroundColor="#18bc9c"></Button>	
+			<Button id="loginButton" title="Login" width="90%" left="5%" top="30%" backgroundColor="#18bc9c" color="#ffffff"></Button>
+			<Button id="signUpButton" title="Sign Up" width="90%" left="5%" top="3%" backgroundColor="#18bc9c" color="#ffffff"></Button>	
 			
 		</View>
 	</Window>

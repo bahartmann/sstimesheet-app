@@ -8,7 +8,8 @@ $.confirmButton.addEventListener("click", function(){
 
 function userLogin() {
 	if ($.emailField.value == "teste" && $.passwordField.value == "teste"){
-		alert("Aeeeee");
+		var monthController = Alloy.createController('month');
+		monthController.show();
 	} else {
 		alert("Invalid email or password.");
 	}
