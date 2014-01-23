@@ -1,5 +1,5 @@
 <Alloy>
 	<Window id="monthWindow">
-		<Label>Hello!</Label>
+		<TableView id="daysTable"></TableView>
 	</Window>
 </Alloy>
