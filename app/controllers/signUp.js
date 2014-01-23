@@ -7,12 +7,7 @@ $.confirmButton.addEventListener("click", function(){
 });
 
 function userSignUp() {
-	if ($.passwordField.value == $.passwordConfirmationField.value){
-		var monthController = Alloy.createController('month');
-		monthController.show();
-	} else {
-		alert("Passwords don't match.");
-	}
+	alert("Not yet implemented.");
 }
  
 $.signUpWindow.addEventListener('click', function(evt) {
