@@ -15,10 +15,6 @@ function createClient(){
 	var client = Ti.Network.createHTTPClient({
 		onload : function(e) {
 			Ti.API.info("Received status: " + this.status);
-			var toast = Titanium.UI.createNotification({
-				duration: 700,
-				message: "Connected"
-			}).show();
 			var monthController = Alloy.createController('month');
 			monthController.show(this.responseText);
 		},

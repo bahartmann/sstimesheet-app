@@ -1,15 +1,9 @@
 exports.show = function(response) {
-	
 	var content = JSON.parse(response);
+	createActionBar(content.month);
+	
 	var days = content.month.days;
 	createRows(days);
-	
-	$.monthWindow.addEventListener('open', function() {
-		var actionBar = $.monthWindow.activity.actionBar;
-		if (actionBar) {
-			actionBar.title = content.month.name;
-		}
-	});
 	
 	$.monthWindow.open();
 };
@@ -62,3 +56,54 @@ function createTasksView(tasks) {
 	}
 	return tasksView;
 };
+
+function createActionBar(month){
+	$.monthWindow.addEventListener('open', function() {
+		var actionBar = $.monthWindow.activity.actionBar;
+		if (actionBar) {
+			actionBar.title = month.name;
+		}
+	});
+	
+	$.monthWindow.activity.onCreateOptionsMenu = function(e) {
+	    var menu = e.menu;
+	    menu.add({ 
+			title : "<",
+			showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS
+		}).addEventListener("click", function(e) {
+			prevMonth(month.month, month.year);
+		});
+		menu.add({ 
+			title : ">",
+			showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS
+		}).addEventListener("click", function(e) {
+			nextMonth(month.month, month.year);
+		});
+	};
+}
+
+function prevMonth(month, year){
+	if (month == 1){
+		month = 12;
+		year = year - 1;
+	} else {
+		month = month - 1;
+	}
+	goMonth(month, year);
+}
+function nextMonth(month, year){
+	if (month == 12){
+		month = 1;
+		year = year + 1;
+	} else {
+		month = month + 1;
+	}
+	goMonth(month, year);
+}
+
+function goMonth(month, year){
+	url = ('http://sstimesheet.herokuapp.com/month/' + year + '/' + month + '.json');
+	var request = require('request').request;
+	request.url = url;
+	request.connect();
+}
