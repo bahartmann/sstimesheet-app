@@ -1,6 +1,8 @@
 var request = {
 	method: 'GET',
 	url: 'http://sstimesheet.herokuapp.com/month.json',
+	success: null,
+	error: null,
 	params: {},	
 	connect: function() {
 		var client = createClient();		
@@ -15,8 +17,9 @@ function createClient(){
 	var client = Ti.Network.createHTTPClient({
 		onload : function(e) {
 			Ti.API.info("Received status: " + this.status);
-			var monthController = Alloy.createController('month');
-			monthController.show(this.responseText);
+			if(request.success) {
+				request.success(this);
+			}
 		},
 		onerror : function(e) {
 			Ti.API.info("Received text: " + this.responseText);
@@ -25,6 +28,9 @@ function createClient(){
 				duration: 700,
 				message: "Connection error"
 			}).show();
+			if(request.error) {
+				request.error(this);
+			}
 		},
 		timeout : 5000
 	});

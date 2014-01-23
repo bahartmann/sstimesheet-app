@@ -1,5 +1,3 @@
 <Alloy>
-	<Window id="monthWindow">
-		<TableView id="daysTable"></TableView>
-	</Window>
+	<Window id="monthWindow"></Window>
 </Alloy>

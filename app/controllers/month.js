@@ -1,19 +1,46 @@
-exports.show = function(response) {
+exports.show = function() {
+	
+	/*
 	var content = JSON.parse(response);
 	createActionBar(content.month);
 	
 	var days = content.month.days;
 	createRows(days);
+	*/
 	
 	$.monthWindow.open();
+	
+	var VirtualScroller = require('virtualScroller');
+	 
+	var virtualScroller = VirtualScroller({
+	    getView: renderMonth,
+	    infinite: true
+	});
+	 
+	$.monthWindow.add(virtualScroller.view);
+	
 };
 
-function createRows(days) {
+function renderMonth(i) {
+	var view = Ti.UI.createView();
+	var table = Ti.UI.createTableView();
+	view.add(table);
+	
+	goMonth(1, 2014, function(e) {
+		var content = JSON.parse(e.responseText);
+		var days = content.month.days;
+		createRows(table, days);
+	});
+	
+	return view;
+};
+
+function createRows(table, days) {
 	var tableData = [];
 	for (var i = 0; i < days.length; i++) {
 		tableData.push(createDayRow(days[i]));
 	}
-	$.daysTable.setData(tableData);
+	table.setData(tableData);
 }
 
 function createDayRow(day) {
@@ -101,9 +128,11 @@ function nextMonth(month, year){
 	goMonth(month, year);
 }
 
-function goMonth(month, year){
+function goMonth(month, year, callback){
 	url = ('http://sstimesheet.herokuapp.com/month/' + year + '/' + month + '.json');
 	var request = require('request').request;
 	request.url = url;
+	request.success = callback;
 	request.connect();
 }
+

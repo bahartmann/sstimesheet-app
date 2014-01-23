@@ -15,5 +15,9 @@ $.confirmButton.addEventListener("click", function(){
 		user_email: $.emailField.value,
 		user_password: $.passwordField.value
 	};
+	request.success = function(e) {
+		var monthController = Alloy.createController('month');
+		monthController.show();
+	};
 	request.connect();
 });
