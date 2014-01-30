@@ -1,36 +1,99 @@
 exports.show = function() {
-	
-	/*
-	var content = JSON.parse(response);
-	createActionBar(content.month);
-	
-	var days = content.month.days;
-	createRows(days);
-	*/
-	
+	$.monthWindow.add(scrollable);
 	$.monthWindow.open();
-	
-	var VirtualScroller = require('virtualScroller');
-	 
-	var virtualScroller = VirtualScroller({
-	    getView: renderMonth,
-	    infinite: true
-	});
-	 
-	$.monthWindow.add(virtualScroller.view);
-	
 };
 
-function renderMonth(i) {
+var isAndroid = Ti.Platform.osname === 'android';
+
+var currentDate = new Date();
+containers = renderContainers(currentDate);
+
+var scrollable = Ti.UI.createScrollableView({
+	views : containers,
+	currentPage : 1
+});
+
+function scrollListener(evt) {
+	switch (evt.currentPage) {
+		case 0:
+			Ti.API.info("Listener L, data inicio: " + currentDate);
+			currentDate.setMonth(currentDate.getMonth() - 1);
+			
+			var prevDate = new Date();
+			prevDate.setDate(15);
+			prevDate.setFullYear(currentDate.getFullYear());
+			prevDate.setMonth(currentDate.getMonth() - 1);
+			
+			containers.unshift(newView(prevDate));
+			containers.pop();
+			
+			if (isAndroid) {
+				scrollable.removeEventListener('scrollend', scrollListener);
+			}
+			scrollable.currentPage = 1;
+			scrollable.views = containers;
+			if (isAndroid) {
+				scrollable.addEventListener('scrollend', scrollListener);
+			}
+			break;
+		case 1:
+			break;
+		case 2:
+			currentDate.setMonth(currentDate.getMonth() + 1);
+				        
+			var nextDate = new Date();
+			nextDate.setDate(15);
+			nextDate.setFullYear(currentDate.getFullYear());
+			nextDate.setMonth(currentDate.getMonth() + 1);
+			
+			containers.push(newView(nextDate));
+			containers.shift();
+			
+			if (isAndroid) {
+				scrollable.removeEventListener('scrollend', scrollListener);
+			}
+			scrollable.currentPage = 1;
+			scrollable.views = containers;
+			if (isAndroid) {
+				scrollable.addEventListener('scrollend', scrollListener);
+			}
+			break;
+	}
+}
+scrollable.addEventListener('scrollend', scrollListener);
+
+function renderContainers(myDate){
+	myDate.setDate(15);
+	currentDate = myDate;
+	
+	var pDate = new Date();
+	pDate.setDate(15);
+	pDate.setFullYear(myDate.getFullYear());
+	pDate.setMonth(myDate.getMonth() - 1);
+	
+	var nDate = new Date();
+	nDate.setDate(15);
+	nDate.setFullYear(myDate.getFullYear());
+	nDate.setMonth(myDate.getMonth() + 1);
+	
+	var containers = [newView(pDate), newView(myDate), newView(nDate)];
+	Ti.API.info("Data atual: " + myDate);
+	
+	return containers;
+}
+
+function newView(date) {
 	var view = Ti.UI.createView();
 	var table = Ti.UI.createTableView();
-	view.add(table);
 	
-	goMonth(1, 2014, function(e) {
+	var month = date.getMonth() + 1;
+	var year = date.getFullYear();
+	goMonth(month, year, function(e) {
 		var content = JSON.parse(e.responseText);
 		var days = content.month.days;
 		createRows(table, days);
 	});
+	view.add(table);
 	
 	return view;
 };
@@ -50,7 +113,7 @@ function createDayRow(day) {
 	} else if (day.day_type == 'today'){
 		row.setBackgroundColor('#18bc9c');
 	}
-
+	
 	var dayLabel = Ti.UI.createLabel({
 		text: day.day,
 		top: '8dp',
@@ -60,7 +123,7 @@ function createDayRow(day) {
 		width: '20dp'
 	});
 	row.add(dayLabel);
-	row.add(createTasksView(day.tasks));	
+	row.add(createTasksView(day.tasks));
 	return row;
 };
 
@@ -72,7 +135,7 @@ function createTasksView(tasks) {
 		top: '4dp',
 		bottom: '4dp'
 	});
-		
+	
 	for (var i = 0; i < tasks.length; i++) {
 		var task = Ti.UI.createLabel({
 			text: tasks[i].description,
@@ -84,50 +147,6 @@ function createTasksView(tasks) {
 	return tasksView;
 };
 
-function createActionBar(month){
-	$.monthWindow.addEventListener('open', function() {
-		var actionBar = $.monthWindow.activity.actionBar;
-		if (actionBar) {
-			actionBar.title = month.name;
-		}
-	});
-	
-	$.monthWindow.activity.onCreateOptionsMenu = function(e) {
-	    var menu = e.menu;
-	    menu.add({ 
-			title : "<",
-			showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS
-		}).addEventListener("click", function(e) {
-			prevMonth(month.month, month.year);
-		});
-		menu.add({ 
-			title : ">",
-			showAsAction : Ti.Android.SHOW_AS_ACTION_ALWAYS
-		}).addEventListener("click", function(e) {
-			nextMonth(month.month, month.year);
-		});
-	};
-}
-
-function prevMonth(month, year){
-	if (month == 1){
-		month = 12;
-		year = year - 1;
-	} else {
-		month = month - 1;
-	}
-	goMonth(month, year);
-}
-function nextMonth(month, year){
-	if (month == 12){
-		month = 1;
-		year = year + 1;
-	} else {
-		month = month + 1;
-	}
-	goMonth(month, year);
-}
-
 function goMonth(month, year, callback){
 	url = ('http://sstimesheet.herokuapp.com/month/' + year + '/' + month + '.json');
 	var request = require('request').request;
@@ -135,4 +154,3 @@ function goMonth(month, year, callback){
 	request.success = callback;
 	request.connect();
 }
-
