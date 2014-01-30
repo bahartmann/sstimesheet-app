@@ -1,3 +1,4 @@
+$.indexWindow.orientationModes = [Titanium.UI.PORTRAIT];
 $.indexWindow.open();
 
 function userLogin() {
